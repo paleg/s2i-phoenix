@@ -15,17 +15,18 @@ Versions
 Elixir versions currently provided are:
 * 1.2.5
 * 1.3.3
-* 1.4.1
+* 1.4.5
 
 
 Erlang versions currently provided are:
 * 18.3 (On Elixir 1.2 & 1.3)
-* 19.2 (On Elixir 1.4)
+* 20.0 (On Elixir 1.4 & 1.5 & 1.6)
 
 
 Nodejs versions currently provided are:
 * 6.7.0 (On Elixir 1.2 & 1.3)
-* 6.9.4 (On Elixir 1.4)
+* 6.11.1 (On Elixir 1.4)
+* 8.11.2 (On Elixir 1.5 & 1.6)
 
 CentOS versions currently supported are:
 * CentOS7
@@ -36,7 +37,7 @@ To build a Phoenix image:
 
 1. Clone this repo and enter into the directory
   ```
-  git clone git@github.com:openshift-s2i/s2i-phoenix.git
+  git clone git@github.com:jshmrtn/s2i-phoenix.git
   cd s2i-phoenix
   ```
 
@@ -61,15 +62,15 @@ To build the Phoenix Builder image:
 * This image is available on DockerHub. To download it run:
 
 ```
-$ docker pull jtslear/phoenix-builder
+$ docker pull jshmrtn/phoenix-builder
 ```
 
 * To build a Phoenix builder image from scratch run:
 
 ```
-$ git clone https://github.com/jtslear/s2i-phoenix.git
+$ git clone https://github.com/jshmrtn/s2i-phoenix.git
 $ cd s2i-phoenix
-$ make build VERSION=1.3
+$ make build VERSION=1.6
 ```
 
 **If the `VERSION` parameter is ommitted, the build would occur for all versions
@@ -84,6 +85,6 @@ on top of the s2i-phoenix image.
 
 ```
 $ cd s2i-phoenix
-$ docker build -t jtslear/phoenix-builder-candidate . # Test script requires this to be available locally
+$ docker build -t jshmrtn/phoenix-builder-candidate . # Test script requires this to be available locally
 $ make test
 ```

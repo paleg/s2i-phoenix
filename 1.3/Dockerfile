@@ -12,7 +12,13 @@ ENV NPM_VERSION ${NPM_VERSION}
 LABEL io.k8s.description="Platform for building and running a phoenix app" \
       io.k8s.display-name="build-phoenix" \
       io.openshift.expose-services="4000:http" \
-      io.openshift.tags="builder,elixir,phoenix"
+      io.openshift.tags="builder,elixir,phoenix" \
+      com.redhat.dev-mode="DEV_MODE:false" \
+      com.redhat.deployments-dir="/opt/app-root/src" \
+      com.redhat.dev-mode.port="DEBUG_PORT:5858" \
+      name="jshmrtn/s2i-phoenix" \
+      maintainer="Jonatan Männchen <maennchen@joshmartin.ch>" \
+      version="$ELIXIR_VERSION"
 
 # Install Erlang
 RUN set -x \
@@ -53,6 +59,11 @@ RUN set -x \
   && cd .. \
   && rm -rf otp_src_${ERLANG_VERSION}
 
+RUN localedef -i en_US -f UTF-8 en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LC_CTYPE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
 # Install Elixir
 RUN set -x \
   && yum install -y --setopt=tsflags=nodocs \
@@ -92,12 +103,16 @@ RUN set -x \
 
 ENV LANG en_US.UTF-8
 
-COPY ./s2i/bin/ /usr/libexec/s2i
+# Copy the S2I scripts from the image to $STI_SCRIPTS_PATH
+COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 
-RUN chown -R 1001:1001 /opt/app-root
-
+# Drop the root user and make the content of /opt/app-root owned by user 1001
+RUN chown -R 1001:0 /opt/app-root && chmod -R ug+rwx /opt/app-root
 USER 1001
 
+# Expose the default port
 EXPOSE 4000
 
-CMD ["/usr/libexec/s2i/usage"]
+# Set the default CMD to print the usage of the language image
+CMD $STI_SCRIPTS_PATH/usage
+
