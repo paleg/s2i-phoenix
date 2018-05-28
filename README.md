@@ -16,7 +16,8 @@ Elixir versions currently provided are:
 * 1.2.5
 * 1.3.3
 * 1.4.5
-
+* 1.5.3
+* 1.6.5
 
 Erlang versions currently provided are:
 * 18.3 (On Elixir 1.2 & 1.3)
