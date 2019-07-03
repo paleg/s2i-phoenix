@@ -8,4 +8,5 @@
 #
 
 export LANG=en_US.utf8
+mix ecto.setup
 exec mix phx.server
